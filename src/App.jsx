@@ -12,7 +12,8 @@ import {
   Send,
   Loader2,
   CheckCircle2,
-  Edit3
+  Edit3,
+  PhoneCall
 } from 'lucide-react';
 
 // =========================================================
@@ -37,7 +38,7 @@ const db = getFirestore(app);
 // =========================================================
 // FORMSPREE ENDPOINT FOR KITCHEN ALERTS
 // =========================================================
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xlgqpeev';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjybbdpl';
 
 // Setup custom fonts programmatically
 if (typeof document !== 'undefined') {
@@ -59,27 +60,26 @@ if (typeof document !== 'undefined') {
 
 const MENU_DATA = {
   snacks: [
-    { id: 's1', name: 'Nocellara Olives', price: 4.75, tag: 'VG GF', desc: '' },
-    { id: 's2_butter', name: 'Focaccia (with sea salt butter)', price: 5.95, tag: 'V 1,6', desc: 'Freshly baked focaccia served with sea salt butter.' },
-    { id: 's2_oil', name: 'Focaccia (with balsamic oil)', price: 5.95, tag: 'V 1,6', desc: 'Freshly baked focaccia served with balsamic oil.' },
-    { id: 's3', name: 'Buffalo Cucumbers', price: 5.95, tag: 'V 1,3,6', desc: 'Ranch dressing, pangrattato, dill.' },
-    { id: 's4', name: "'Tavern Style' Gildas", price: 5.00, tag: 'GF 4,6,8', desc: 'Stuffed olive, house pickle, anchovie.' },
-    { id: 's5', name: 'Fried Potato Slices', price: 7.50, tag: 'V 1,3,6,8', desc: 'Truffle mayo, parmesan, chives.' },
-    { id: 's6', name: 'Truffle & Porcini Arancini', price: 8.00, tag: 'V 1,3,6,14', desc: 'Truffle bechamel, parmesan.' },
+    { id: 's1', name: 'Nocellara Olives', price: 4.50, tag: 'VG GF', desc: '' },
+    { id: 's2', name: 'Buffalo Cucumbers', price: 6.00, tag: 'V 1,3,6', desc: 'Ranch dressing, pangrattato, dill.' },
+    { id: 's3', name: 'Balsamic Onions', price: 4.50, tag: 'V 1,3,6', desc: '' },
+    { id: 's4', name: 'Garic Parmesan Focaccia', price: 6.50, tag: 'V 1,6', desc: 'Tear and share.' },
+    { id: 's5', name: "'Tavern Style' Gildas", price: 5.00, tag: 'GF 2,4,8', desc: 'Stuffed olive, house pickle, anchovie.' },
+    { id: 's6', name: 'Fried Potato Slices', price: 7.50, tag: 'V 1,3,6,14', desc: 'Truffle mayo, parmesan, chives.' },
   ],
   plates: [
-    { id: 'p1', name: 'House Salad', price: 7.95, tag: 'GF V 6,12', desc: 'Mixed leaves, pickled shallots, cucumber, cherry tomatoes, honey mustard, parmesan.' },
-    { id: 'p2', name: 'Bruschetta', price: 7.95, tag: 'V 1,6,12', desc: 'Whipped Burrata, focaccia, heritage tomatoes, pesto.' },
-    { id: 'p3', name: 'Antipasti', price: 12.00, tag: 'GF 1,6,8,12', desc: 'Gabagool, gardiniera, parmesan.' },
-    { id: 'p4', name: 'Buffalo Chicken Tenders', price: 10.00, tag: '1,3,6,8,12', desc: 'Ranch dressing, pickles, hot honey, dill crumb.' },
-    { id: 'p5', name: 'Lasagne Fritti', price: 12.50, tag: '1,3,6,12,14', desc: 'Sugo, parmesan, pesto.' },
-    { id: 'p6', name: 'Chicken Parm', price: 13.50, tag: '1,6,8,14,12', desc: 'Sugo, mozzarella, parmesan, basil oil, prosciutto crumb.' }
+    { id: 'p1', name: 'Mozzarella Sticks', price: 7.50, tag: 'V 1,3,6', desc: 'Vodka sauce, parmesan.' },
+    { id: 'p2', name: 'Buffalo Chicken Tenders', price: 10.00, tag: '1,3,6,8,12', desc: 'Ranch dressing, pickles, hot honey, dill crumb.' },
+    { id: 'p3', name: 'Autumn Salad', price: 7.95, tag: 'GF V 6,12', desc: 'Orzo, butternut squash, pickled red onion, tomato, buffalo mozzarella, rocket, sun dried tomato dressing.' },
+    { id: 'p4', name: 'Lasagne Fritti', price: 12.50, tag: '1,3,6,12,14', desc: 'Sugo, parmesan, pesto.' },
+    { id: 'p5', name: 'Antipasti (Italian Tacos)', price: 7.95, tag: 'GF 1,6,8,12', desc: 'Coppa, balsamic onions, cornichons, whipped burrata.' },
+    { id: 'p6', name: 'Spice Boi Parm Parm', price: 13.50, tag: '1,6,8,14,12', desc: 'Sugo, mozzarella, pepperoni, guindilla chillies, hot honey, pepperoni ranch.' }
   ],
   pastas: [
     { id: 'pa1', name: 'Rigatoni Alla Vodka', price: 13.95, tag: 'V 1,3,6', desc: 'Creamy tomato & vodka sauce, chilli, whipped burrata, parmesan.' },
-    { id: 'pa2', name: 'Courgette Tagliatelle', price: 13.95, tag: 'VG* 1,11', desc: 'Vegan cream cheese, mint & lemon. *Add parmesan £1.50' },
-    { id: 'pa3', name: "Nduja & Sausage Mac N' Cheese", price: 14.00, tag: '1,3,6,14', desc: 'Italian sausage, pangrattato, parmesan.' },
-    { id: 'pa4', name: 'Tiger Prawn Linguini', price: 16.00, tag: '1,2,3,12', desc: 'Sugo, cherry tomatoes, spinach, chilli.' }
+    { id: 'pa2', name: "Moray Mac N' Cheese", price: 14.95, tag: '1,3,4,6,14', desc: 'Smoked haddock, crispy leeks.' },
+    { id: 'pa3', name: "Chicken Afredo", price: 14.95, tag: '1,3,6,8', desc: 'Fettucine, broccoli.' },
+    { id: 'pa4', name: 'Cauliflower Cacio e Pepe', price: 12.95, tag: 'VG* 1,8,11,12', desc: 'Tagliatelle, caramelised cauliflower. *Add parmesan £1.50' }
   ],
   pizzas: [
     { id: 'pz1', name: 'Marinara', price: 14.00, tag: 'VG* 1', desc: 'San marzano sugo, confit garlic, oregano. *Add parmesan £1.50' },
@@ -87,7 +87,7 @@ const MENU_DATA = {
     { id: 'pz3', name: 'Gabagool', price: 17.00, tag: '1,6', desc: 'San marzano sugo, provolone, parmesan, cappacola.' },
     { id: 'pz4', name: 'Sausage & Peppers', price: 18.00, tag: '1,6', desc: 'San marzano sugo, mozzarella, italian sausage, piquante peppers.' },
     { id: 'pz5', name: 'The Spice Boi', price: 17.00, tag: '1,6', desc: 'San marzano sugo, mozzarella, pepperoni, hot honey, guindilla chillies.' },
-    { id: 'pz6', name: 'The Spice Gal', price: 17.00, tag: '1,3,6,8,10,11,12', desc: 'San marzano sugo, mozzarella, chicken diavola, sweetcorn salsa, sour cream.' },
+    { id: 'pz6', name: '5 cheeses', price: 17.00, tag: '1,6', desc: 'Ricotta, mozzarella, gorgonzola, provolone, parmesan, fig jam, chives.' },
     { id: 'pz7', name: 'Vodka Pie', price: 17.00, tag: 'V 1,6', desc: 'Creamy tomato vodka sauce, san marzano sugo, mozzarella, whipped burrata, pesto.' },
     { id: 'pz8', name: 'Rum Ham & Pineapple', price: 17.00, tag: '1,6,8,12', desc: 'San marzano sugo, mozzarella, rum ham, pineapple, scotch bonnet & pineapple hot sauce.' },
     { id: 'pz9', name: 'Spice Bag', price: 16.00, tag: 'VG 1,11,13', desc: 'Curry sauce, salt & chilli cauliflower, onions, peppers, chilli, coriander, spring onion, vegan yoghurt.' }
@@ -96,8 +96,10 @@ const MENU_DATA = {
     { id: 'dp1', name: 'Garlic & Herb', price: 2.00, desc: '' },
     { id: 'dp2', name: 'Truffle Mayo', price: 2.00, desc: '' },
     { id: 'dp3', name: 'Honey Buffalo', price: 2.00, desc: '' },
-    { id: 'dp4', name: 'Hot Pepper Spritz (Dip)', price: 2.00, desc: '' },
-    { id: 'dp5', name: 'Hot Pepper Spritz (Bottle)', price: 7.00, desc: '' }
+    { id: 'dp4', name: 'Pepperoni Ranch', price: 2.00, desc: '' },
+    { id: 'dp5', name: 'Chilli Jam', price: 2.00, desc: '' },
+    { id: 'dp6', name: 'Hot Honey', price: 2.00, desc: '' },
+    { id: 'dp7', name: 'Burrata Ball', price: 6.50, desc: '' }
   ]
 };
 
@@ -137,6 +139,7 @@ export default function App() {
   const [isSubmittedSuccess, setIsSubmittedSuccess] = useState(false);
   const [activeOrderId, setActiveOrderId] = useState(null);
   const [isEditingExisting, setIsEditingExisting] = useState(false);
+  const [isCutoffLocked, setIsCutoffLocked] = useState(false);
 
   // Booking Info States
   const [bookingName, setBookingName] = useState('');
@@ -174,6 +177,25 @@ export default function App() {
             if (data.quantities) setQuantities(data.quantities);
             if (data.customDietary) setCustomDietary(data.customDietary);
             if (data.specialRequests) setSpecialRequests(data.specialRequests);
+
+            // Cut-off check: 1 day before or day of booking
+            if (data.day && data.month && data.year) {
+              const bookingDate = new Date(
+                parseInt(data.year),
+                parseInt(data.month) - 1,
+                parseInt(data.day),
+                23, 59, 59
+              );
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+
+              const diffInTime = bookingDate.getTime() - today.getTime();
+              const diffInDays = Math.floor(diffInTime / (1000 * 3600 * 24));
+
+              if (diffInDays <= 1) {
+                setIsCutoffLocked(true);
+              }
+            }
           }
         } catch (err) {
           console.error("Error loading order from Firebase:", err);
@@ -316,6 +338,7 @@ export default function App() {
   const grandTotal = totalBill + serviceCharge;
 
   const adjustQuantity = (id, amount) => {
+    if (isCutoffLocked) return;
     setQuantities(prev => {
       const current = prev[id] || 0;
       const next = Math.max(0, current + amount);
@@ -336,6 +359,7 @@ export default function App() {
   };
 
   const adjustParmesan = (itemId, amount, maxQty) => {
+    if (isCutoffLocked) return;
     setQuantities(prev => {
       const parmKey = `${itemId}_parm`;
       const current = prev[parmKey] || 0;
@@ -352,6 +376,7 @@ export default function App() {
   };
 
   const clearSelection = () => {
+    if (isCutoffLocked) return;
     setQuantities({});
     setCustomDietary('');
     setSpecialRequests('');
@@ -365,6 +390,7 @@ export default function App() {
     setIsSubmittedSuccess(false);
     setActiveOrderId(null);
     setIsEditingExisting(false);
+    setIsCutoffLocked(false);
   };
 
   const generateEmailText = () => {
@@ -432,6 +458,11 @@ export default function App() {
 
   // 2. UNIFIED SUBMISSION HANDLER (FIREBASE + FORMSPREE + RESEND)
   const handleSubmitOrder = async () => {
+    if (isEditingExisting && isCutoffLocked) {
+      setValidationError('Online pre-order updates close 1 day prior to your booking. Please call us directly on 0141 286 6617.');
+      return;
+    }
+
     const nameStr = bookingName.trim();
     const emailStr = bookingEmail.trim();
     const dateStr = formatShortDate();
@@ -504,14 +535,14 @@ export default function App() {
         body: JSON.stringify(formspreePayload)
       });
 
-// Step C: Send Branded Email via Serverless API Proxy
+      // Step C: Send Branded Email via Serverless API Proxy
       const customerSubject = isEditingExisting 
-        ? `Pre-Order UPDATED: Westside Tavern (${dateStr} at ${timeStr})`
-        : `Pre-Order Confirmation: Westside Tavern (${dateStr} at ${timeStr})`;
+        ? `Pre-Order UPDATED: West Side Tavern (${dateStr} at ${timeStr})`
+        : `Pre-Order Confirmation: West Side Tavern (${dateStr} at ${timeStr})`;
 
       const customerHtml = `
         <div style="font-family: Georgia, serif; background-color: #FAF6E8; color: #b32025; padding: 30px; border: 4px double #b32025; max-width: 600px; margin: 0 auto;">
-          <h1 style="font-size: 26px; text-align: center; margin-bottom: 4px;">WESTSIDE TAVERN</h1>
+          <h1 style="font-size: 26px; text-align: center; margin-bottom: 4px;">WEST SIDE TAVERN</h1>
           <p style="text-align: center; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-top: 0;">
             ${isEditingExisting ? 'Pre-Order Updated' : 'Pre-Order Receipt'}
           </p>
@@ -549,7 +580,7 @@ export default function App() {
       `;
 
       // Fetch our backend serverless function (no CORS error, key stays private)
-      await fetch('/api/send-email', {
+      await fetch('/.netlify/functions/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -594,14 +625,14 @@ export default function App() {
       {/* HEADER SECTION */}
       <header className="max-w-4xl mx-auto px-6 pt-8 pb-4 flex justify-between items-center border-b border-dashed border-[#b32025]/30">
         <div className="text-xs tracking-wider uppercase font-sans font-bold flex items-center gap-2">
-          <span>Tavern Pre-Order Menu</span>
+          <span>West Side Tavern Pre-Order Menu</span>
           {isEditingExisting && (
             <span className="bg-[#b32025] text-[#FAF6E8] text-[10px] px-2 py-0.5 rounded font-mono font-normal flex items-center gap-1">
               <Edit3 className="w-3 h-3" /> Editing Order
             </span>
           )}
         </div>
-        {(totalItems > 0 || customDietary || bookingName || bookingEmail || bookingDay) && (
+        {(totalItems > 0 || customDietary || bookingName || bookingEmail || bookingDay) && !isCutoffLocked && (
           <button 
             onClick={clearSelection}
             className="flex items-center gap-1.5 text-xs uppercase font-sans font-bold hover:opacity-80 transition"
@@ -614,6 +645,25 @@ export default function App() {
       {/* DETAILED SECTIONS */}
       <main className="max-w-4xl mx-auto px-6 py-8 space-y-12">
         
+        {/* CUT-OFF BANNER FOR LATE EDITS */}
+        {isEditingExisting && isCutoffLocked && (
+          <section className="border-4 border-double border-[#b32025] p-6 rounded-lg bg-[#b32025]/10 text-center space-y-3">
+            <div className="flex items-center justify-center gap-2 font-bold uppercase tracking-wider text-sm font-sans">
+              <AlertCircle className="w-5 h-5 text-[#b32025]" />
+              <span>Online Pre-Order Edits Closed</span>
+            </div>
+            <p className="text-sm italic max-w-lg mx-auto leading-relaxed">
+              Online amendments are locked within 24 hours of your booking date. To make any changes or additions to your order for today or tomorrow, please phone the venue directly:
+            </p>
+            <a 
+              href="tel:01412866617" 
+              className="inline-flex items-center gap-2 bg-[#b32025] text-[#FAF6E8] font-sans font-bold text-xs uppercase tracking-widest px-6 py-3 rounded hover:opacity-90 transition shadow-md"
+            >
+              <PhoneCall className="w-4 h-4" /> Call Venue on 0141 286 6617
+            </a>
+          </section>
+        )}
+
         {/* SNACKS SECTION */}
         <section className="border-4 border-double border-[#b32025] p-6 rounded-lg relative">
           <img 
@@ -640,15 +690,16 @@ export default function App() {
                     <div className="inline-flex items-center gap-2 font-sans text-xs flex-shrink-0">
                       <button 
                         onClick={() => adjustQuantity(item.id, -1)} 
-                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-                        disabled={qty === 0}
+                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 || isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        disabled={qty === 0 || isCutoffLocked}
                       >
                         -
                       </button>
                       <span className={`w-3 text-center font-bold ${qty > 0 ? 'underline' : 'opacity-40'}`}>{qty}</span>
                       <button 
                         onClick={() => adjustQuantity(item.id, 1)} 
-                        className="w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition"
+                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        disabled={isCutoffLocked}
                       >
                         +
                       </button>
@@ -690,15 +741,16 @@ export default function App() {
                     <div className="inline-flex items-center gap-2 font-sans text-xs flex-shrink-0">
                       <button 
                         onClick={() => adjustQuantity(item.id, -1)} 
-                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-                        disabled={qty === 0}
+                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 || isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        disabled={qty === 0 || isCutoffLocked}
                       >
                         -
                       </button>
                       <span className={`w-3 text-center font-bold ${qty > 0 ? 'underline' : 'opacity-40'}`}>{qty}</span>
                       <button 
                         onClick={() => adjustQuantity(item.id, 1)} 
-                        className="w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition"
+                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        disabled={isCutoffLocked}
                       >
                         +
                       </button>
@@ -743,15 +795,16 @@ export default function App() {
                     <div className="inline-flex items-center gap-2 font-sans text-xs flex-shrink-0">
                       <button 
                         onClick={() => adjustQuantity(item.id, -1)} 
-                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-                        disabled={qty === 0}
+                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 || isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        disabled={qty === 0 || isCutoffLocked}
                       >
                         -
                       </button>
                       <span className={`w-3 text-center font-bold ${qty > 0 ? 'underline' : 'opacity-40'}`}>{qty}</span>
                       <button 
                         onClick={() => adjustQuantity(item.id, 1)} 
-                        className="w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition"
+                        className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        disabled={isCutoffLocked}
                       >
                         +
                       </button>
@@ -759,22 +812,22 @@ export default function App() {
                   </div>
                   {item.desc && <p className="text-sm italic opacity-90 mt-0.5 leading-snug">{item.desc}</p>}
                   
-                  {item.id === 'pa2' && qty > 0 && (
+                  {item.id === 'pa4' && qty > 0 && (
                     <div className="mt-2.5 pl-4 border-l-2 border-[#b32025]/30 flex items-center justify-between text-xs bg-[#b32025]/5 p-1.5 rounded">
                       <span className="font-sans font-semibold tracking-wide uppercase text-[10px]">Add Parmesan (+£1.50)</span>
                       <div className="inline-flex items-center gap-2 font-sans">
                         <button 
                           onClick={() => adjustParmesan(item.id, -1, qty)} 
-                          className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty === 0 ? 'opacity-35 cursor-not-allowed' : ''}`}
-                          disabled={parmQty === 0}
+                          className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty === 0 || isCutoffLocked ? 'opacity-35 cursor-not-allowed' : ''}`}
+                          disabled={parmQty === 0 || isCutoffLocked}
                         >
                           -
                         </button>
                         <span className="w-3 text-center font-bold">{parmQty}</span>
                         <button 
                           onClick={() => adjustParmesan(item.id, 1, qty)} 
-                          className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty >= qty ? 'opacity-35 cursor-not-allowed' : ''}`}
-                          disabled={parmQty >= qty}
+                          className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty >= qty || isCutoffLocked ? 'opacity-35 cursor-not-allowed' : ''}`}
+                          disabled={parmQty >= qty || isCutoffLocked}
                         >
                           +
                         </button>
@@ -821,15 +874,16 @@ export default function App() {
                       <div className="inline-flex items-center gap-2 font-sans text-xs flex-shrink-0">
                         <button 
                           onClick={() => adjustQuantity(item.id, -1)} 
-                          className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-                          disabled={qty === 0}
+                          className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 || isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                          disabled={qty === 0 || isCutoffLocked}
                         >
                           -
                         </button>
                         <span className={`w-3 text-center font-bold ${qty > 0 ? 'underline' : 'opacity-40'}`}>{qty}</span>
                         <button 
                           onClick={() => adjustQuantity(item.id, 1)} 
-                          className="w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition"
+                          className={`w-5 h-5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                          disabled={isCutoffLocked}
                         >
                           +
                         </button>
@@ -843,16 +897,16 @@ export default function App() {
                         <div className="inline-flex items-center gap-2 font-sans">
                           <button 
                             onClick={() => adjustParmesan(item.id, -1, qty)} 
-                            className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty === 0 ? 'opacity-35 cursor-not-allowed' : ''}`}
-                            disabled={parmQty === 0}
+                            className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty === 0 || isCutoffLocked ? 'opacity-35 cursor-not-allowed' : ''}`}
+                            disabled={parmQty === 0 || isCutoffLocked}
                           >
                             -
                           </button>
                           <span className="w-3 text-center font-bold">{parmQty}</span>
                           <button 
                             onClick={() => adjustParmesan(item.id, 1, qty)} 
-                            className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty >= qty ? 'opacity-35 cursor-not-allowed' : ''}`}
-                            disabled={parmQty >= qty}
+                            className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${parmQty >= qty || isCutoffLocked ? 'opacity-35 cursor-not-allowed' : ''}`}
+                            disabled={parmQty >= qty || isCutoffLocked}
                           >
                             +
                           </button>
@@ -890,15 +944,16 @@ export default function App() {
                       <div className="inline-flex items-center gap-2 font-sans text-[11px] mt-1">
                         <button 
                           onClick={() => adjustQuantity(item.id, -1)} 
-                          className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-                          disabled={qty === 0}
+                          className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${qty === 0 || isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                          disabled={qty === 0 || isCutoffLocked}
                         >
                           -
                         </button>
                         <span className={`w-3 text-center font-bold ${qty > 0 ? 'underline' : 'opacity-40'}`}>{qty}</span>
                         <button 
                           onClick={() => adjustQuantity(item.id, 1)} 
-                          className="w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition"
+                          className={`w-4.5 h-4.5 rounded-full border border-[#b32025] flex items-center justify-center font-bold hover:bg-[#b32025] hover:text-[#FAF6E8] transition ${isCutoffLocked ? 'opacity-30 cursor-not-allowed' : ''}`}
+                          disabled={isCutoffLocked}
                         >
                           +
                         </button>
@@ -909,8 +964,8 @@ export default function App() {
               </div>
 
               <div className="border-t border-[#b32025] w-full mt-6 pt-4">
-                <span className="font-sans font-extrabold text-[11px] uppercase tracking-wider block">✦ Hot Pepper Spritz ✦</span>
-                <span className="text-xs italic block mt-1 opacity-90">Made by PJ's Hot Sauce</span>
+                <span className="font-sans font-extrabold text-[11px] uppercase tracking-wider block"></span>
+                <span className="text-xs italic block mt-1 opacity-90"></span>
               </div>
             </div>
           </section>
@@ -984,7 +1039,7 @@ export default function App() {
               <CheckCircle2 className="w-16 h-16 mx-auto text-[#b32025] animate-bounce" />
               <h2 className="font-old-english text-5xl">Pre-Order {isEditingExisting ? 'Updated!' : 'Received!'}</h2>
               <p className="font-sans text-base leading-relaxed">
-                Thank you, <strong>{bookingName}</strong>. Your pre-order for <strong>{formatShortDate()} at {bookingTime}</strong> has been saved directly to Westside Tavern.
+                Thank you, <strong>{bookingName}</strong>. Your pre-order for <strong>{formatShortDate()} at {bookingTime}</strong> has been saved directly to West Side Tavern.
               </p>
               
               {/* EDIT LINK DISPLAY FOR CUSTOMER */}
@@ -1053,8 +1108,9 @@ export default function App() {
                       type="text" 
                       placeholder="e.g. Sarah Jenkins"
                       value={bookingName}
+                      disabled={isCutoffLocked}
                       onChange={(e) => setBookingName(e.target.value)}
-                      className="w-full bg-transparent border-2 border-[#b32025] rounded p-2 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none"
+                      className="w-full bg-transparent border-2 border-[#b32025] rounded p-2 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none disabled:opacity-50"
                     />
                   </div>
 
@@ -1067,8 +1123,9 @@ export default function App() {
                       type="email" 
                       placeholder="e.g. sarah@example.com"
                       value={bookingEmail}
+                      disabled={isCutoffLocked}
                       onChange={(e) => setBookingEmail(e.target.value)}
-                      className="w-full bg-transparent border-2 border-[#b32025] rounded p-2 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none"
+                      className="w-full bg-transparent border-2 border-[#b32025] rounded p-2 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none disabled:opacity-50"
                     />
                   </div>
 
@@ -1080,8 +1137,9 @@ export default function App() {
                       
                       <select
                         value={bookingMonth}
+                        disabled={isCutoffLocked}
                         onChange={(e) => setBookingMonth(e.target.value)}
-                        className="bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-xs text-[#b32025] focus:outline-none"
+                        className="bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-xs text-[#b32025] focus:outline-none disabled:opacity-50"
                       >
                         <option value="">Month</option>
                         {MONTHS_LIST.map(m => (
@@ -1092,8 +1150,8 @@ export default function App() {
                       <select
                         value={bookingDay}
                         onChange={(e) => setBookingDay(e.target.value)}
-                        disabled={!bookingMonth}
-                        className="bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-xs text-[#b32025] focus:outline-none disabled:opacity-40"
+                        disabled={!bookingMonth || isCutoffLocked}
+                        className="bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-xs text-[#b32025] focus:outline-none disabled:opacity-50"
                       >
                         <option value="">Day</option>
                         {dynamicDaysList.map(d => (
@@ -1103,8 +1161,9 @@ export default function App() {
 
                       <select
                         value={bookingYear}
+                        disabled={isCutoffLocked}
                         onChange={(e) => setBookingYear(e.target.value)}
-                        className="bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-xs text-[#b32025] focus:outline-none"
+                        className="bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-xs text-[#b32025] focus:outline-none disabled:opacity-50"
                       >
                         {YEARS_LIST.map(y => (
                           <option key={y} value={y}>{y}</option>
@@ -1121,8 +1180,8 @@ export default function App() {
                     <select
                       value={bookingTime}
                       onChange={(e) => setBookingTime(e.target.value)}
-                      disabled={!bookingDay}
-                      className="w-full bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-sm text-[#b32025] focus:outline-none disabled:opacity-40"
+                      disabled={!bookingDay || isCutoffLocked}
+                      className="w-full bg-[#FAF6E8] border-2 border-[#b32025] rounded p-2 text-sm text-[#b32025] focus:outline-none disabled:opacity-50"
                     >
                       <option value="">{bookingDay ? 'Select Time Slot' : 'Please complete your booking date first'}</option>
                       {availableTimes.map(t => (
@@ -1184,8 +1243,9 @@ export default function App() {
                     rows={2}
                     placeholder="e.g. Peanut allergy, gluten free etc."
                     value={customDietary}
+                    disabled={isCutoffLocked}
                     onChange={(e) => setCustomDietary(e.target.value)}
-                    className="w-full bg-[#FAF6E8] border-2 border-[#b32025] rounded p-3 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none"
+                    className="w-full bg-[#FAF6E8] border-2 border-[#b32025] rounded p-3 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none disabled:opacity-50"
                   />
                 </div>
 
@@ -1195,8 +1255,9 @@ export default function App() {
                     rows={2}
                     placeholder="e.g. no hot honey, extra parmesan, sauce on side etc."
                     value={specialRequests}
+                    disabled={isCutoffLocked}
                     onChange={(e) => setSpecialRequests(e.target.value)}
-                    className="w-full bg-[#FAF6E8] border-2 border-[#b32025] rounded p-3 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none"
+                    className="w-full bg-[#FAF6E8] border-2 border-[#b32025] rounded p-3 text-sm text-[#b32025] placeholder-[#b32025]/40 focus:outline-none disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -1247,7 +1308,7 @@ export default function App() {
                 {/* SUBMIT / UPDATE BUTTON */}
                 <button
                   onClick={handleSubmitOrder}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isCutoffLocked}
                   className="w-full py-4 rounded font-bold text-sm tracking-widest uppercase transition-all duration-150 flex items-center justify-center gap-2 border-2 border-[#b32025] bg-[#b32025] text-[#FAF6E8] hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
